@@ -28,6 +28,33 @@ const PIECES = [
 
 const LINE_SCORES = [0, 100, 300, 500, 800];
 
+const THEME_COLORS = {
+  dark: { grid: '#22222e', ghostHighlight: 'rgba(255,255,255,0.12)' },
+  light: { grid: '#dfe3f0', ghostHighlight: 'rgba(0,0,0,0.1)' },
+};
+
+const THEME_STORAGE_KEY = 'tetris-theme';
+const themeToggleBtn = document.getElementById('theme-toggle');
+let theme = 'dark';
+
+function applyTheme(name) {
+  theme = name;
+  document.documentElement.setAttribute('data-theme', name);
+  themeToggleBtn.textContent = name === 'light' ? '☀️' : '🌙';
+  localStorage.setItem(THEME_STORAGE_KEY, name);
+}
+
+function toggleTheme() {
+  applyTheme(theme === 'dark' ? 'light' : 'dark');
+  if (current) {
+    draw();
+    drawNext();
+  }
+}
+
+applyTheme(localStorage.getItem(THEME_STORAGE_KEY) === 'light' ? 'light' : 'dark');
+themeToggleBtn.addEventListener('click', toggleTheme);
+
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
 const nextCanvas = document.getElementById('next-canvas');
@@ -163,13 +190,13 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   context.fillStyle = color;
   context.fillRect(x * size + 1, y * size + 1, size - 2, size - 2);
   // highlight
-  context.fillStyle = 'rgba(255,255,255,0.12)';
+  context.fillStyle = THEME_COLORS[theme].ghostHighlight;
   context.fillRect(x * size + 1, y * size + 1, size - 2, 4);
   context.globalAlpha = 1;
 }
 
 function drawGrid() {
-  ctx.strokeStyle = '#22222e';
+  ctx.strokeStyle = THEME_COLORS[theme].grid;
   ctx.lineWidth = 0.5;
   for (let c = 1; c < COLS; c++) {
     ctx.beginPath();
