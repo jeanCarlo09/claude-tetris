@@ -1,0 +1,87 @@
+name: Claude Issue Triage
+
+# Automatically analyzes issues with Claude: assigns the appropriate labels
+# and posts a general diagnosis of the problem, which will later serve as the
+# basis for implementing the solution.
+
+on:
+  issues:
+    types: [opened, edited]
+
+# Avoids duplicate runs if the issue is edited several times in a row.
+concurrency:
+  group: issue-triage-${{ github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  triage:
+    # Only real issues: pull requests are also "issues" in the API, so skip them.
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Issue Triage
+        id: claude-triage
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: '--allowed-tools "Bash(gh label list),Bash(gh issue view *),Bash(gh issue edit *),Bash(gh issue comment *)"'
+          prompt: |
+            You are the issue triage owner for the repository ${{ github.repository }}.
+            Issue #${{ github.event.issue.number }} has just been opened or edited.
+
+            Perform the following steps using the `gh` CLI:
+
+            1. Read the full issue:
+               `gh issue view ${{ github.event.issue.number }}`
+
+            2. List the labels available in the repo:
+               `gh label list`
+
+            3. Analyze the issue title and body and decide which EXISTING labels
+               are appropriate (for example: bug, enhancement, documentation,
+               question, etc.). Apply them with:
+               `gh issue edit ${{ github.event.issue.number }} --add-label "label1,label2"`
+               - Only use labels that already exist in the repository.
+               - Assign only the labels that truly apply; if none clearly fits,
+                 do not force any.
+
+            4. Post ONE comment on the issue with a general diagnosis of the
+               problem, written in English, using this Markdown structure:
+
+               ## 🤖 Automatic diagnosis
+
+               **Summary:** (1-2 sentences describing the problem or request)
+
+               **Type:** (bug / enhancement / documentation / question / etc.)
+
+               **Affected components:** (files or parts of the game likely
+               involved: `game.js`, `index.html`, `style.css`, collision logic,
+               game loop, rendering, scoring, etc. — as applicable)
+
+               **Technical analysis:** (explanation of the likely root cause of
+               the problem or what the request would involve, based on the
+               project architecture described in CLAUDE.md)
+
+               **Suggested steps for the solution:** (a list of concrete,
+               actionable steps a developer could follow to implement the fix
+               or the feature)
+
+               **Applied labels:** (list of the labels you assigned)
+
+               Post it with:
+               `gh issue comment ${{ github.event.issue.number }} --body "..."`
+
+            This diagnosis will later be used as the basis for implementing the
+            solution, so be concrete and technical. Focus on analyzing and
+            diagnosing: do NOT modify any code in this step.
+        env:
+          GH_TOKEN: ${{ github.token }}
