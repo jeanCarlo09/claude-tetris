@@ -32,4 +32,5 @@ All game logic lives in `game.js` (~300 lines, single global scope, `'use strict
 ## Gotchas
 
 - Canvas dimensions are hardcoded in `index.html` (`board` = 300×600, `next-canvas` = 120×120). If you change `COLS`, `ROWS`, or `BLOCK` in `game.js`, update the `<canvas width/height>` attributes to match (`COLS*BLOCK × ROWS*BLOCK`), or rendering will be misaligned/clipped.
-- `game.js` depends on specific DOM element IDs (`board`, `next-canvas`, `score`, `lines`, `level`, `overlay`, `overlay-title`, `overlay-score`, `restart-btn`). Renaming in HTML requires matching updates in the `getElementById` calls at the top of `game.js`.
+- `game.js` depends on specific DOM element IDs (`board`, `next-canvas`, `score`, `lines`, `level`, `combo`, `overlay`, `overlay-title`, `overlay-score`, `overlay-records`, `restart-btn`, `name-form`, `name-input`, `start-screen`, `start-records`, `play-btn`, `reset-records-btn`, `theme-toggle`). Renaming in HTML requires matching updates in the `getElementById` calls at the top of `game.js`.
+- `localStorage` keys: `tetris-records` (top 5), `tetris-last-name`, `tetris-theme`. `loadRecords()` sanitizes/sorts/truncates on every read, so corrupt or hand-edited data degrades to `[]` instead of throwing.

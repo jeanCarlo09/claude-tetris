@@ -42,6 +42,8 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Sistema de puntuación** clásico de Tetris (100 / 300 / 500 / 800 multiplicado por nivel).
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
+- **Combos**: líneas limpiadas en turnos consecutivos suman un bonus extra.
+- **Tabla de records local** (`localStorage`): top 5 puntuaciones con nombre, visible en la pantalla de inicio y en el Game Over, con el mejor combo y las líneas máximas conseguidas.
 
 ---
 
@@ -98,7 +100,8 @@ Define la estructura visual:
 
 - Un `<canvas id="board">` de **300 × 600** píxeles donde se renderiza el tablero.
 - Un panel lateral con `SCORE`, `LINES`, `LEVEL`, vista de la siguiente pieza y la lista de controles.
-- Un overlay para los estados **PAUSA** y **GAME OVER**.
+- Un overlay para los estados **PAUSA** y **GAME OVER** (con formulario de nombre y tabla de records).
+- Una pantalla de inicio (`#start-screen`) con la tabla de records y el botón de jugar.
 
 ### 2. `style.css`
 
@@ -117,6 +120,8 @@ Contiene toda la lógica del juego. A grandes rasgos:
 - **Puntuación**: usa la tabla clásica `[0, 100, 300, 500, 800]` multiplicada por el nivel actual; el hard drop suma 2 puntos por celda recorrida y el soft drop 1 punto por fila.
 - **Nivel y velocidad**: el nivel sube cada 10 líneas; la velocidad de caída se calcula como `max(100, 1000 − (level − 1) × 90)` milisegundos.
 - **Ghost piece** (`ghostY`): proyecta la posición final de la pieza actual hacia abajo y la dibuja con `globalAlpha = 0.2`.
+- **Combo** (`clearLines`): se incrementa con cada pieza que limpia líneas y se reinicia cuando una pieza no limpia ninguna; a partir del segundo encadenado suma `50 × (combo − 1) × nivel`.
+- **Records** (`loadRecords` / `addRecord` / `renderRecords`): top 5 ordenado por puntuación en la clave `tetris-records` de `localStorage`, guardando nombre, puntos, líneas, nivel, combo máximo y fecha.
 
 ### Flujo del juego
 
