@@ -28,6 +28,16 @@
   --toggle-bg: #22223a;
   --toggle-border: #3a3a5a;
   --toggle-color: #e0e0e0;
+  --menu-bg: rgba(26, 26, 37, 0.95);
+  --menu-border: #2a2a3a;
+  --menu-title-color: #7aa2f7;
+  --menu-hint-color: #777790;
+  --menu-btn-secondary-bg: #22223a;
+  --menu-btn-secondary-color: #cfd3e6;
+  --menu-btn-secondary-hover-bg: #2e2e4a;
+  --select-bg: #22223a;
+  --select-border: #3a3a5a;
+  --select-color: #e0e0e0;
 }
 
 html[data-theme="light"] {
@@ -54,6 +64,16 @@ html[data-theme="light"] {
   --toggle-bg: #e6e9f5;
   --toggle-border: #c7cde0;
   --toggle-color: #2a2a3a;
+  --menu-bg: rgba(255, 255, 255, 0.96);
+  --menu-border: #c7cde0;
+  --menu-title-color: #3b5bdb;
+  --menu-hint-color: #7a7f99;
+  --menu-btn-secondary-bg: #e6e9f5;
+  --menu-btn-secondary-color: #2a2a3a;
+  --menu-btn-secondary-hover-bg: #d6dbee;
+  --select-bg: #ffffff;
+  --select-border: #c7cde0;
+  --select-color: #2a2a3a;
 }
 
 body {
@@ -238,4 +258,106 @@ kbd {
 
 #restart-btn:hover {
   background: var(--btn-hover-bg);
+}
+
+/* ---- Menú de pausa ---- */
+.pause-menu {
+  width: 220px;
+  max-height: 92%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: stretch;
+  text-align: center;
+  padding: 20px 18px;
+  background: var(--menu-bg);
+  border: 1px solid var(--menu-border);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px var(--board-shadow);
+}
+
+.pause-menu.hidden,
+.pause-controls.hidden,
+.overlay-box.hidden {
+  display: none;
+}
+
+.pause-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: var(--menu-title-color);
+}
+
+.pause-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pause-btn {
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  border: none;
+  border-radius: 6px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.pause-btn:hover {
+  background: var(--btn-hover-bg);
+}
+
+.pause-btn.secondary {
+  background: var(--menu-btn-secondary-bg);
+  color: var(--menu-btn-secondary-color);
+}
+
+.pause-btn.secondary:hover {
+  background: var(--menu-btn-secondary-hover-bg);
+}
+
+.pause-level {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.pause-level label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--label-color);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+#start-level {
+  background: var(--select-bg);
+  color: var(--select-color);
+  border: 1px solid var(--select-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  width: 100%;
+}
+
+.pause-hint {
+  font-size: 10px;
+  color: var(--menu-hint-color);
+}
+
+.pause-controls ul {
+  align-items: flex-start;
+}
+
+.pause-controls li {
+  justify-content: flex-start;
 }
