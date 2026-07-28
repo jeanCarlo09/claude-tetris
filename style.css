@@ -239,3 +239,110 @@ kbd {
 #restart-btn:hover {
   background: var(--btn-hover-bg);
 }
+
+/* ---- Menú de pausa ---- */
+.menu-box {
+  gap: 16px;
+  width: 240px;
+}
+
+#pause-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: var(--value-color);
+}
+
+.menu-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.menu-btn {
+  background: var(--kbd-bg);
+  color: var(--text-color);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.menu-btn:hover {
+  border-color: var(--btn-bg);
+}
+
+.menu-btn.primary {
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  border-color: var(--btn-bg);
+}
+
+.menu-btn.primary:hover {
+  background: var(--btn-hover-bg);
+}
+
+.menu-controls {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.menu-controls.hidden {
+  display: none;
+}
+
+.menu-controls li {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--controls-color);
+}
+
+.menu-controls li span {
+  margin-left: 4px;
+}
+
+.menu-level {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  width: 100%;
+  padding-top: 12px;
+  border-top: 1px solid var(--board-border);
+}
+
+.menu-level label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--label-color);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+#start-level {
+  background: var(--kbd-bg);
+  color: var(--text-color);
+  border: 1px solid var(--kbd-border);
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.menu-level small {
+  font-size: 10px;
+  color: var(--label-color);
+}
