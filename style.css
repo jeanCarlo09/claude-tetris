@@ -108,6 +108,65 @@ body {
   border-color: var(--btn-bg);
 }
 
+#skin-select {
+  background: var(--toggle-bg);
+  border: 1px solid var(--toggle-border);
+  color: var(--toggle-color);
+  border-radius: 999px;
+  height: 36px;
+  padding: 0 12px;
+  font-size: 12px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+#skin-select:hover {
+  border-color: var(--btn-bg);
+}
+
+/* ---- Skins: apariencia del tablero y del marco ---- */
+html[data-skin="neon"] {
+  --board-bg: #05050c;
+  --board-border: #2b1e5c;
+  --board-shadow: rgba(120, 60, 255, 0.45);
+}
+
+html[data-skin="pastel"] {
+  --board-bg: #fdfbff;
+  --board-border: #e2dcf0;
+  --board-shadow: rgba(150, 130, 190, 0.25);
+}
+
+html[data-skin="pastel"] #board,
+html[data-skin="pastel"] #next-canvas {
+  border-radius: 12px;
+}
+
+html[data-skin="pixel"] {
+  --board-bg: #14141f;
+  --board-border: #4a4a6a;
+}
+
+html[data-skin="pixel"] #board,
+html[data-skin="pixel"] #next-canvas {
+  border-radius: 0;
+  border-width: 3px;
+  border-style: solid;
+  image-rendering: pixelated;
+}
+
+html[data-skin="pixel"] .game-title,
+html[data-skin="pixel"] .value,
+html[data-skin="pixel"] #overlay-title {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+html[data-theme="light"][data-skin="pixel"] {
+  --board-bg: #f4f4fb;
+  --board-border: #9aa0c0;
+}
+
 .game-container {
   display: flex;
   gap: 20px;
